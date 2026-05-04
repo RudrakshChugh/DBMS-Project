@@ -9,20 +9,9 @@ const TopBar = ({ title, mobileNavToggle, isDark, toggleDark }) => (
     </div>
     
     <div className="flex items-center gap-4 text-muted">
-      <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/50 rounded-sm w-[240px] text-[13px] border border-transparent focus-within:border-border-emphasis focus-within:bg-base-surface transition-colors">
-        <Icons.Search />
-        <input type="text" placeholder="Search system..." className="bg-transparent border-none outline-none w-full text-base-text placeholder-slate-400" />
-      </div>
       <button onClick={toggleDark} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
         {isDark ? <Icons.Sun /> : <Icons.Moon />}
       </button>
-      <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors relative">
-        <Icons.Bell />
-        <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-status-danger rounded-full ring-2 ring-white dark:ring-base-surface"></span>
-      </button>
-      <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 border border-border-emphasis flex items-center justify-center font-semibold text-[12px] text-slate-600 dark:text-slate-300 select-none cursor-pointer">
-        A
-      </div>
     </div>
   </header>
 );

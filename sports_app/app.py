@@ -170,8 +170,8 @@ def team_stats():
 # ── Meta: data for dropdowns ──
 @app.route('/api/meta')
 def meta():
-    teams = query("SELECT TeamID, TeamName FROM Team ORDER BY TeamName")
-    events = query("SELECT EventID, EventName FROM Event ORDER BY EventName")
+    teams = query("SELECT TeamID, TeamName, GameID FROM Team ORDER BY TeamName")
+    events = query("SELECT EventID, EventName, GameID FROM Event ORDER BY EventName")
     referees = query("""
         SELECT r.RefereeID, u.FirstName || ' ' || u.LastName AS name
         FROM Referee r JOIN Users u ON u.UserID = r.UserID ORDER BY name

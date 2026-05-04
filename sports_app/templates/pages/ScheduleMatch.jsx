@@ -15,6 +15,20 @@ const ScheduleMatch = ({ toast }) => {
     setF(p => ({ ...p, [k]: v }));
     if (errors[k]) setErrors(p => ({ ...p, [k]: null }));
   };
+
+  const handleEventChange = (v) => {
+    setF(p => ({ ...p, event_id: v, team1_id: '', team2_id: '' }));
+    setErrors(p => ({ ...p, event_id: null, team1_id: null, team2_id: null }));
+  };
+
+  const availableTeams = (meta && meta.teams) ? (
+    f.event_id 
+      ? meta.teams.filter(t => {
+          const ev = meta.events.find(e => e.eventid == f.event_id);
+          return ev ? t.gameid == ev.gameid : true;
+        })
+      : meta.teams
+  ) : [];
   
   const validate = () => {
     const e = {};
@@ -87,7 +101,7 @@ const ScheduleMatch = ({ toast }) => {
               
               {meta ? (
                 <>
-                  <Select label="Tournament / Event" value={f.event_id} onChange={v => set('event_id', v)} options={meta.events} vk="eventid" lk="eventname" error={errors.event_id} />
+                  <Select label="Tournament / Event" value={f.event_id} onChange={handleEventChange} options={meta.events} vk="eventid" lk="eventname" error={errors.event_id} />
                   <Select label="Venue" value={f.venue_id} onChange={v => set('venue_id', v)} options={meta.venues} vk="venueid" lk="venuename" error={errors.venue_id} />
                   <div className="grid grid-cols-2 gap-4">
                     <Input label="Date" type="date" value={f.match_date} onChange={v => set('match_date', v)} error={errors.match_date} />
@@ -106,13 +120,13 @@ const ScheduleMatch = ({ toast }) => {
               <Card className="p-6 bg-slate-50 dark:bg-slate-800 border-dashed">
                 {meta ? (
                   <div className="flex flex-col gap-4 relative">
-                    <Select label="Team A (Home)" value={f.team1_id} onChange={v => set('team1_id', v)} options={meta.teams} vk="teamid" lk="teamname" error={errors.team1_id} />
+                    <Select label="Team A (Home)" value={f.team1_id} onChange={v => set('team1_id', v)} options={availableTeams} vk="teamid" lk="teamname" error={errors.team1_id} />
                     
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-base-surface border border-border-default rounded-full flex items-center justify-center text-[11px] font-bold text-muted z-10 shadow-sm">
                       VS
                     </div>
                     
-                    <Select label="Team B (Away)" value={f.team2_id} onChange={v => set('team2_id', v)} options={meta.teams} vk="teamid" lk="teamname" error={errors.team2_id} />
+                    <Select label="Team B (Away)" value={f.team2_id} onChange={v => set('team2_id', v)} options={availableTeams} vk="teamid" lk="teamname" error={errors.team2_id} />
                   </div>
                 ) : <SkeletonLoader type="card" />}
                 
